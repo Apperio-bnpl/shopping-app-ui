@@ -26,7 +26,7 @@ function Home() {
             title="Sony WH-1000XM4 Wireless Industry Leading Noise Canceling Overhead Headphones with Mic for Phone-Call and Alexa Voice Control, Black"
             price={279.99}
             image="https://images-na.ssl-images-amazon.com/images/I/71o8Q5XJS5L._AC_SY355_.jpg"
-            rating={5}
+            rating={3}
           />
         </div>
         <div className="home__row">
@@ -35,14 +35,14 @@ function Home() {
             title="The Lean Startup: How Today's Entrepreneurs Use Continuous Innovation to Create Radically"
             price={19.99}
             image="https://images-na.ssl-images-amazon.com/images/I/51Zymoq7UnL._AC_SY400_.jpg"
-            rating={5}
+            rating={4}
           />
           <Product
             id="11114"
             title="Nilos Glass Vases Set of 10, Clear Vintage Glass Flower Vase with Rope Design Home Decoration"
             price={34.99}
             image="https://images-na.ssl-images-amazon.com/images/I/81aarywz98L._AC_SX522_.jpg"
-            rating={5}
+            rating={2}
           />
           <Product
             id="11115"
