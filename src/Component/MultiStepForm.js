@@ -383,16 +383,18 @@ const MultiStepForm = () => {
   const handleNext = (data) => {
     // call API
     // console.log("===================>>>>>>>", data);
-    // if (activeStep == steps.length - 1) {
-    //   fetch("https://jsonplaceholder.typicode.com/comments")
-    //     .then((data) => data.json())
-    //     .then((res) => {
-    //       console.log(res);
-    //       setActiveStep(activeStep + 1);
-    //     });
-    // } else {
-    //   setActiveStep(activeStep + 1);
-    // }
+    if (activeStep == steps.length - 1) {
+      // fetch("https://jsonplaceholder.typicode.com/comments")
+      //   .then((data) => data.json())
+      //   .then((res) => {
+      //     console.log(res);
+      //     setActiveStep(activeStep + 1);
+      //   });
+      // console.log("===================>>>>>>>", data);
+      setActiveStep(activeStep + 1);
+    } else {
+      setActiveStep(activeStep + 1);
+    }
   };
 
   const handleBack = () => {
