@@ -9,6 +9,8 @@ import {
   FormControl,
   InputLabel,
   Select,
+  Checkbox,
+  FormControlLabel,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -21,6 +23,7 @@ import {
 import moment from "moment";
 
 import logo from "../assets/img/logo.png";
+import moneybag from "../assets/img/moneybag.png";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -46,6 +49,19 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+  moneyBag: {
+    display: "flex",
+    width: "100px",
+    objectFit: "contain",
+    alignItems: "center",
+    margin: "10px auto",
+  },
+  success: {
+    color: "#e81532",
+  },
+  agreement: {
+    marginTop: "10px",
+  },
 }));
 
 function getSteps() {
@@ -54,6 +70,7 @@ function getSteps() {
     "Contact Information",
     "Address Information",
     "Income Information",
+    "Accept Terms",
   ];
 }
 
@@ -338,10 +355,64 @@ const PaymentForm = () => {
   );
 };
 
+const MoneyAllocation = () => {
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    checkedA: false,
+  });
+
+  const handleCheckbox = (name) => (event) => {
+    setState({ ...state, [name]: event.target.checked });
+  };
+  const { control } = useFormContext();
+  return (
+    <>
+      <img src={moneybag} className={classes.moneyBag} />
+      <Typography variant="h4" align="center" className={classes.success}>
+        Congratulations
+      </Typography>
+      <Typography variant="h6" align="center">
+        Your spend limit is
+      </Typography>
+      <Typography variant="h2" align="center">
+        $1000
+      </Typography>
+      <Typography align="left">
+        This is your initial credit limit. It would be extended based on your
+        usage and repayments.
+      </Typography>
+      <Controller
+        control={control}
+        name="checkedA"
+        render={({ field }) => (
+          <>
+            <FormControlLabel
+              className={classes.agreement}
+              control={
+                <Checkbox
+                  checked={state.checkedA}
+                  onClick={handleCheckbox("checkedA")}
+                  value="true"
+                  inputProps={{
+                    "aria-label": "primary checkbox",
+                  }}
+                  {...field}
+                />
+              }
+              label="By clicking you agree to HSBC agreement."
+            />
+            <br />
+          </>
+        )}
+      />
+    </>
+  );
+};
+
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <BasicForm />;
+      return <MoneyAllocation />;
 
     case 1:
       return <ContactForm />;
@@ -349,6 +420,8 @@ function getStepContent(step) {
       return <PersonalForm />;
     case 3:
       return <PaymentForm />;
+    case 4:
+      return <MoneyAllocation />;
     default:
       return "unknown step";
   }
