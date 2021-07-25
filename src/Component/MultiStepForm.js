@@ -412,7 +412,7 @@ const MoneyAllocation = () => {
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <MoneyAllocation />;
+      return <BasicForm />;
 
     case 1:
       return <ContactForm />;
