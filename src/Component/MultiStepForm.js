@@ -21,6 +21,7 @@ import {
 } from "react-hook-form";
 
 import moment from "moment";
+import axios from "axios";
 
 import logo from "../assets/img/logo.png";
 import moneybag from "../assets/img/moneybag.png";
@@ -207,7 +208,7 @@ const ContactForm = () => {
       />
       <Controller
         control={control}
-        name="alternatePhone"
+        name="alternatePhoneNumber"
         render={({ field }) => (
           <TextField
             id="alternate-phone"
@@ -229,7 +230,7 @@ const PersonalForm = () => {
     <>
       <Controller
         control={control}
-        name="address1"
+        name="addressLine1"
         render={({ field }) => (
           <TextField
             id="address1"
@@ -244,10 +245,10 @@ const PersonalForm = () => {
       />
       <Controller
         control={control}
-        name="address2"
+        name="addressLine2"
         render={({ field }) => (
           <TextField
-            id="address2"
+            id="addressLine2"
             label="Address 2"
             variant="outlined"
             placeholder="Enter Your Address 2"
@@ -322,7 +323,7 @@ const PaymentForm = () => {
       />
       <Controller
         control={control}
-        name="salary"
+        name="monthlySalary"
         render={({ field }) => (
           <TextField
             id="salary"
@@ -436,13 +437,13 @@ const MultiStepForm = () => {
       gender: "",
       emailAddress: "",
       phoneNumber: "",
-      alternatePhone: "",
-      address1: "",
-      address2: "",
+      alternatePhoneNumber: "",
+      addressLine1: "",
+      addressLine2: "",
       country: "",
       occupation: "",
       ssn: "",
-      salary: "",
+      monthlySalary: "",
       dob: moment().format("YYYY-MM-DD"),
     },
   });
@@ -455,16 +456,27 @@ const MultiStepForm = () => {
 
   const handleNext = (data) => {
     // call API
-    // console.log("===================>>>>>>>", data);
-    if (activeStep == steps.length - 1) {
-      // fetch("https://jsonplaceholder.typicode.com/comments")
-      //   .then((data) => data.json())
-      //   .then((res) => {
-      //     console.log(res);
-      //     setActiveStep(activeStep + 1);
-      //   });
-      // console.log("===================>>>>>>>", data);
-      setActiveStep(activeStep + 1);
+
+    if (activeStep == steps.length - 2) {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      axios
+        .get(
+          "http://ec2-54-245-35-190.us-west-2.compute.amazonaws.com:8085/credit/report/454554",
+          {
+            headers,
+            params: data,
+          }
+        )
+        .then((response) => {
+          console.log("===================>>>>>>>", response.data);
+          setActiveStep(activeStep + 1);
+        })
+        .catch((error) => {
+          setActiveStep(activeStep + 1);
+          console.error("There was an error!", error);
+        });
     } else {
       setActiveStep(activeStep + 1);
     }
@@ -474,9 +486,6 @@ const MultiStepForm = () => {
     setActiveStep(activeStep - 1);
   };
 
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
   return (
     <div className={classes.container}>
       <img src={logo} alt="" className={classes.logo} />
@@ -525,7 +534,7 @@ const MultiStepForm = () => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                // onClick={handleNext}
+                // onClick={steps.length - 1 && handleNext}
                 type="submit"
               >
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
