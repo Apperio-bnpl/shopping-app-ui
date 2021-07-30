@@ -22,6 +22,7 @@ import {
 
 import moment from "moment";
 import axios from "axios";
+import { Link, useHistory } from "react-router-dom";
 
 import logo from "../assets/img/logo.png";
 import moneybag from "../assets/img/moneybag.png";
@@ -463,7 +464,7 @@ const MultiStepForm = () => {
       };
       axios
         .get(
-          "http://ec2-54-245-35-190.us-west-2.compute.amazonaws.com:8085/credit/report/454554",
+          "http://springcreditscoreapi-env.eba-vjwjy6xr.us-west-2.elasticbeanstalk.com/credit/report/454554",
           {
             headers,
             params: data,
@@ -471,12 +472,13 @@ const MultiStepForm = () => {
         )
         .then((response) => {
           console.log("===================>>>>>>>", response.data);
-          setActiveStep(activeStep + 1);
+          // setActiveStep(activeStep + 1);
         })
         .catch((error) => {
-          setActiveStep(activeStep + 1);
+          // setActiveStep(activeStep + 1);
           console.error("There was an error!", error);
         });
+      setTimeout(setActiveStep(activeStep + 1), 2000);
     } else {
       setActiveStep(activeStep + 1);
     }
@@ -485,7 +487,10 @@ const MultiStepForm = () => {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-
+  const history = useHistory();
+  const handleHistory = () => {
+    history.push("/checkout");
+  };
   return (
     <div className={classes.container}>
       <img src={logo} alt="" className={classes.logo} />
@@ -515,7 +520,7 @@ const MultiStepForm = () => {
 
       {activeStep === steps.length ? (
         <Typography variant="h3" align="center">
-          Congratulations!!!
+          {/* Congratulations!!! */}
         </Typography>
       ) : (
         <>
@@ -534,7 +539,11 @@ const MultiStepForm = () => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                // onClick={steps.length - 1 && handleNext}
+                onClick={() => {
+                  if (activeStep === steps.length - 1) {
+                    handleHistory();
+                  }
+                }}
                 type="submit"
               >
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
